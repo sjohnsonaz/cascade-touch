@@ -4,4 +4,6 @@ window.onload = function () {
     console.log('test started...');
     BindTouch.bind(document.getElementById('touch-element-0'));
     BindTouch.bind(document.getElementById('touch-element-1'));
+    BindTouch.bindDrag(document.getElementById('touch-element-0'));
+    BindTouch.bindDrag(document.getElementById('touch-element-1'));
 };

@@ -11,6 +11,7 @@
     line-height: 200px;
     color: #fff;
     position: relative;
+    box-shadow: 0 2px 6px 0 #000;
     transition: box-shadow 0.3s;
 }
 

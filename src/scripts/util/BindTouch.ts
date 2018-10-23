@@ -1,4 +1,5 @@
 import CentroidBuffer from '../touch/CentroidBuffer';
+import Vector from '../touch/Vector';
 
 export default class BindTouch {
     static bind(element: HTMLElement) {
@@ -37,5 +38,38 @@ export default class BindTouch {
         });
 
         return centroidBuffer;
+    }
+
+    static bindDrag(element: HTMLElement) {
+        element.draggable = true;
+        let vector: Vector;
+
+        let hideElement = document.createElement('span');
+        hideElement.style.cssText = 'position: absolute; display: block; top: 0; left: 0; width: 0; height: 0;';
+        document.body.appendChild(hideElement);
+
+        element.addEventListener('dragstart', (event) => {
+            vector = new Vector(event.clientX, event.clientY);
+            element.style.zIndex = '100';
+            element.classList.add('dragging');
+            event.dataTransfer.setDragImage(hideElement, 0, 0);
+        });
+        element.addEventListener('drag', (event) => {
+            if (vector) {
+                let left = parseInt(element.style.left || '0');
+                let top = parseInt(element.style.top || '0');
+                element.style.left = left + event.clientX - vector.x + 'px';
+                element.style.top = top + event.clientY - vector.y + 'px';
+                vector.x = event.clientX;
+                vector.y = event.clientY;
+            }
+        });
+        element.addEventListener('dragend', (event) => {
+            vector = undefined;
+            element.style.left = '0px';
+            element.style.top = '0px';
+            element.style.zIndex = '';
+            element.classList.remove('dragging');
+        });
     }
 }
