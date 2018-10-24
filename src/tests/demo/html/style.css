@@ -1,6 +1,6 @@
 .touchable {
-    border: 1px solid #000;
-    background-color: #f00;
+    border: 1px solid #b11;
+    background-color: #c22;
     height: 200px;
     width: 200px;
     margin: 100px auto;
@@ -13,8 +13,11 @@
     position: relative;
     box-shadow: 0 2px 6px 0 #000;
     transition: box-shadow 0.3s;
+    cursor: move;
+    transform: translate(var(--touch-left), var(--touch-top)) rotate(var(--touch-angle));
 }
 
 .dragging {
     box-shadow: 0 10px 30px 0 #000;
+    z-index: 100;
 }

@@ -1,5 +1,6 @@
+import { Vector } from '@cascade/vector';
+
 import CentroidBuffer from '../touch/CentroidBuffer';
-import Vector from '../touch/Vector';
 
 export default class BindTouch {
     static bind(element: HTMLElement) {
@@ -7,34 +8,34 @@ export default class BindTouch {
 
         element.addEventListener('touchstart', (event) => {
             centroidBuffer.start(event.touches, event.changedTouches);
-            element.style.zIndex = '100';
             element.classList.add('dragging');
-            console.log('touch start', centroidBuffer);
+            //console.log('touch start', centroidBuffer);
         });
         element.addEventListener('touchmove', (event) => {
             centroidBuffer.move(event.touches);
             let delta = centroidBuffer.delta;
             if (delta) {
-                let left = parseInt(element.style.left || '0');
-                let top = parseInt(element.style.top || '0');
-                element.style.left = left + delta.x + 'px';
-                element.style.top = top + delta.y + 'px';
+                let left = parseInt(element.style.getPropertyValue('--touch-left') || '0');
+                let top = parseInt(element.style.getPropertyValue('--touch-top') || '0');
+                let angle = parseInt(element.style.getPropertyValue('--touch-angle') || '0');
+                element.style.setProperty('--touch-left', left + delta.x + 'px');
+                element.style.setProperty('--touch-top', top + delta.y + 'px');
+                element.style.setProperty('--touch-angle', angle + centroidBuffer.rotation + 'rad');
             }
-            console.log('touch move', centroidBuffer, centroidBuffer.velocity);
+            console.log('touch move', centroidBuffer);
         });
         element.addEventListener('touchend', (event) => {
             centroidBuffer.end(event.touches, event.changedTouches);
-            element.style.left = '0px';
-            element.style.top = '0px';
-            element.style.zIndex = '';
+            element.style.setProperty('--touch-left', '0px');
+            element.style.setProperty('--touch-top', '0px');
+            element.style.setProperty('--touch-angle', '0rad');
             element.classList.remove('dragging');
-            console.log('touch end', centroidBuffer);
+            //console.log('touch end', centroidBuffer);
         });
         element.addEventListener('touchcancel', (event) => {
             centroidBuffer.cancel(event.touches, event.changedTouches);
-            element.style.zIndex = '';
             element.classList.remove('dragging');
-            console.log('touch cancel', centroidBuffer);
+            //console.log('touch cancel', centroidBuffer);
         });
 
         return centroidBuffer;

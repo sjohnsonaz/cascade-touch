@@ -1,7 +1,8 @@
-import Vector from './Vector';
+import { Vector } from '@cascade/vector';
 
 export default class Centroid extends Vector {
     time: number;
+    orientation: Vector = null;
 
     update(touchList: TouchList) {
         this.time = performance.now();
@@ -9,6 +10,7 @@ export default class Centroid extends Vector {
         if (!touchList.length) {
             this.x = null;
             this.y = null;
+            this.orientation = null;
         } else {
             let x = 0;
             let y = 0;
@@ -20,6 +22,17 @@ export default class Centroid extends Vector {
             }
             this.x = x / length;
             this.y = y / length;
+
+            if (touchList.length === 2) {
+                let first = touchList[0];
+                let second = touchList[1];
+                this.orientation = new Vector(
+                    second.pageX - first.pageX,
+                    second.pageY - first.pageY
+                );
+            } else {
+                this.orientation = null;
+            }
         }
     }
 }

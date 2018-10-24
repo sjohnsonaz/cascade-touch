@@ -29,7 +29,9 @@
     "url": "https://github.com/sjohnsonaz/cascade-touch.git"
   },
   "bugs": {},
-  "dependencies": {},
+  "dependencies": {
+    "@cascade/vector": "0.0.0"
+  },
   "devDependencies": {
     "@types/chai": "4.1.6",
     "@types/mocha": "5.2.5",

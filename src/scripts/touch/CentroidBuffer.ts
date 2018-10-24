@@ -1,4 +1,4 @@
-import Vector from './Vector';
+import { Vector } from '@cascade/vector';
 import Centroid from './Centroid';
 
 export default class CentroidBuffer {
@@ -28,6 +28,20 @@ export default class CentroidBuffer {
             return new Vector(dx / dt, dy / dt);
         } else {
             return null;
+        }
+    }
+
+    get rotation() {
+        if (this.centroids.length === this.size) {
+            let first = this.centroids[0];
+            let last = this.centroids[this.centroids.length - 1];
+            if (first.orientation && last.orientation) {
+                return Vector.angle(first.orientation, last.orientation);
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
         }
     }
 
